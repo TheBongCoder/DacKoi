@@ -1,6 +1,7 @@
 package com.thebongcoder.dackoi.entity;
 
 
+import com.thebongcoder.dackoi.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,13 @@ public class User extends BaseEntity {
     private String password;
 
     private String address;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    private String userName;
+
+    private String profilePic;
 
     /*@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id", referencedColumnName = "id")

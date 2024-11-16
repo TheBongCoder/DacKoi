@@ -1,8 +1,8 @@
 package com.thebongcoder.dackoi.service;
 
 import com.thebongcoder.dackoi.utils.ResponseHandler;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,11 +11,11 @@ import org.springframework.validation.ObjectError;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class CommonUtilService {
 
 
-    @Autowired
-    private ResponseHandler responseHandler;
+    private final ResponseHandler responseHandler;
 
     public ResponseEntity<Object> requestValidation(BindingResult bindingResult) {
         StringBuilder errorMessage = new StringBuilder();
@@ -26,4 +26,6 @@ public class CommonUtilService {
         return responseHandler.sendResponse("", errorMessage.toString(), false,
                 HttpStatus.BAD_REQUEST);
     }
+
+
 }
