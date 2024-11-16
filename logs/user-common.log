@@ -1,0 +1,26 @@
+2024-11-16 22:39:23.937 c.t.dackoi.DacKoiApplication.logStarting - Starting DacKoiApplication using Java 1.8.0_432 on localhost with PID 71544 (/home/thebongcoder/Workspace/Springboot/dacKoi/target/classes started by thebongcoder in /home/thebongcoder/Workspace/Springboot/dacKoi)
+2024-11-16 22:39:23.942 c.t.dackoi.DacKoiApplication.logStartupProfileInfo - No active profile set, falling back to default profiles: default
+2024-11-16 22:39:23.964 o.h.validator.internal.util.Version.<clinit> - HV000001: Hibernate Validator 6.2.0.Final
+2024-11-16 22:39:25.952 o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-16 22:39:26.052 o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 85 ms. Found 5 JPA repository interfaces.
+2024-11-16 22:39:27.096 o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+2024-11-16 22:39:27.113 o.a.coyote.http11.Http11NioProtocol.log - Initializing ProtocolHandler ["http-nio-8080"]
+2024-11-16 22:39:27.114 o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+2024-11-16 22:39:27.114 o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/9.0.48]
+2024-11-16 22:39:27.200 o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+2024-11-16 22:39:27.201 o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 3144 ms
+2024-11-16 22:39:27.443 o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-16 22:39:27.514 org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 5.4.32.Final
+2024-11-16 22:39:27.718 o.h.s.integration.SpatialService.<init> - HHH80000001: hibernate-spatial integration enabled : true
+2024-11-16 22:39:27.844 o.h.annotations.common.Version.<clinit> - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-11-16 22:39:28.083 com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+2024-11-16 22:39:28.712 com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+2024-11-16 22:39:28.753 org.hibernate.dialect.Dialect.<init> - HHH000400: Using dialect: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
+2024-11-16 22:39:28.765 org.hibernate.dialect.Dialect.<init> - HHH000400: Using dialect: org.hibernate.spatial.dialect.mysql.MySQLSpatialDialect
+2024-11-16 22:39:30.197 o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-11-16 22:39:30.418 o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-16 22:39:32.578 o.a.coyote.http11.Http11NioProtocol.log - Starting ProtocolHandler ["http-nio-8080"]
+2024-11-16 22:39:32.608 o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8080 (http) with context path ''
+2024-11-16 22:39:33.067 com.thebongcoder.dackoi.BootStrap.createdRoleIfNotExist - createdRoleIfNotExist
+2024-11-16 22:39:33.074 com.thebongcoder.dackoi.BootStrap.createSuperAdmin - createSuperAdmin
+2024-11-16 22:39:33.078 c.t.dackoi.DacKoiApplication.logStarted - Started DacKoiApplication in 10.092 seconds (JVM running for 10.947)

@@ -1,6 +1,7 @@
 package com.thebongcoder.dackoi.dto;
 
 import com.thebongcoder.dackoi.Roles;
+import com.thebongcoder.dackoi.enums.Gender;
 import lombok.Data;
 
 import javax.validation.constraints.*;
@@ -16,6 +17,10 @@ public class SignUpRequestDTO {
     @Pattern(regexp = "(^$|[0-9]{10})", message = "Enter valid mobile number")
     @Size(min = 10, max = 10, message = "Enter valid mobile number")
     private String phoneNumber;
+
+    private String userName;
+
+    private Gender gender;
 
     @Email(message = "Enter valid email address")
     private String email;
