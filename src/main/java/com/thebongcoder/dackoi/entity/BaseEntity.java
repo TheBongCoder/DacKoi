@@ -24,4 +24,7 @@ public class BaseEntity {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column
+    private boolean isVerified;
 }

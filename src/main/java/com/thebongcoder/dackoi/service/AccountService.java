@@ -2,12 +2,10 @@ package com.thebongcoder.dackoi.service;
 
 import com.thebongcoder.dackoi.Roles;
 import com.thebongcoder.dackoi.dto.SignUpRequestDTO;
-import com.thebongcoder.dackoi.entity.Clinic;
-import com.thebongcoder.dackoi.entity.Location;
-import com.thebongcoder.dackoi.entity.Role;
-import com.thebongcoder.dackoi.entity.User;
+import com.thebongcoder.dackoi.entity.*;
 import com.thebongcoder.dackoi.enums.AvailableStatus;
 import com.thebongcoder.dackoi.repository.ClinicRepository;
+import com.thebongcoder.dackoi.repository.OTPRepository;
 import com.thebongcoder.dackoi.repository.RoleRepository;
 import com.thebongcoder.dackoi.repository.UserRepository;
 import com.thebongcoder.dackoi.utils.AppConstant;
@@ -17,6 +15,9 @@ import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 import org.springframework.stereotype.Service;
+
+import java.security.SecureRandom;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Service
@@ -30,6 +31,10 @@ public class AccountService {
     private final ClinicRepository clinicRepository;
 
     private final ExternalAPIService externalAPIService;
+
+    private final EmailService emailService;
+
+    private final OTPRepository otpRepository;
 
     /*@Autowired
     private PasswordEncoder passwordEncoder;*/
@@ -85,9 +90,12 @@ public class AccountService {
             clinicRepository.save(clinic);
             log.info("Clinic created successfully:: {}", clinic);
         }
+        String generatedOTP = externalAPIService.generateOTP(4);
+        emailService.sendOTP(user.getEmail(), user.getFullName(), generatedOTP);
+        OTPDetail otpDetail = new OTPDetail(generatedOTP, user.getId());
+        otpRepository.save(otpDetail);
         log.info("User created successfully:: {}", user);
         return "Account created successfully";
     }
-
 
 }

@@ -4,11 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.util.stream.IntStream;
+
 @Service
 @Slf4j
 public class ExternalAPIService {
 
     private static final String DICE_BEAR_API_URL = "https://api.dicebear.com/9.x/bottts/svg";
+
+    private final SecureRandom secureRandom = new SecureRandom();
 
 
     public String generateAvatarUrl(String username) {
@@ -24,4 +29,12 @@ public class ExternalAPIService {
             throw new RuntimeException("Error generating avatar URL", e);
         }
     }
+
+    public String generateOTP(final int lengthOfOTP) {
+        StringBuilder generatedOTP = new StringBuilder();
+        IntStream.range(0, lengthOfOTP).forEach(i -> generatedOTP.append(secureRandom.nextInt(10)));
+        return generatedOTP.toString();
+    }
+
+
 }
