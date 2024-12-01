@@ -28,6 +28,7 @@ public class BootStrap implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private void createSuperAdmin() {
+        log.info("Creating Super Admin");
         if (!userRepository.existsByEmail("theBongCoder@gmail.com")) {
             User user = new User();
             user.setFullName("Super Admin");
@@ -37,6 +38,7 @@ public class BootStrap implements ApplicationListener<ContextRefreshedEvent> {
             user.setEmail("theBongCoder@gmail.com");
             Role role = roleRepository.findByNames(Roles.SUPER_ADMIN);
             user.setRole(role);
+            log.info("Super Admin created:: {}", user);
             userRepository.save(user);
         }
         log.info("createSuperAdmin");
