@@ -1,7 +1,6 @@
 package com.thebongcoder.dackoi.controller;
 
-import com.thebongcoder.dackoi.dto.ClinicRequestDTO;
-import com.thebongcoder.dackoi.service.AccountService;
+import com.thebongcoder.dackoi.dto.ClinicResponseDTO;
 import com.thebongcoder.dackoi.service.CommonUtilService;
 import com.thebongcoder.dackoi.service.UserService;
 import com.thebongcoder.dackoi.utils.ResponseHandler;
@@ -33,7 +32,7 @@ public class UserController {
     @GetMapping(value = UrlConstant.FIND_NEAREST_LOCATION)
     public ResponseEntity<Object> findNearestLocation(@RequestParam String email) {
         try {
-            List<ClinicRequestDTO> nearestLocation = userService.findNearestLocation(email);
+            List<ClinicResponseDTO> nearestLocation = userService.findNearestLocation(email);
             if (!nearestLocation.isEmpty()) {
                 return responseHandler.sendResponse(nearestLocation, "NearestLocation Fetched", false, HttpStatus.IM_USED);
             }

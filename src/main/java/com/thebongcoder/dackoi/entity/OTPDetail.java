@@ -5,11 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OTPDetail {
+@Entity
+public class OTPDetail extends BaseEntity {
 
     private String otp;
 

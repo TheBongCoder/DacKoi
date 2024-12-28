@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -19,7 +16,8 @@ import java.util.Set;
 @Setter
 public class Clinic extends BaseEntity {
 
-    private Long userId;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private User user;
 
     @ManyToMany(mappedBy = "clinics")
     private Set<Doctor> doctors;
