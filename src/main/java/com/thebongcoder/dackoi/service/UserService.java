@@ -1,6 +1,6 @@
 package com.thebongcoder.dackoi.service;
 
-import com.thebongcoder.dackoi.dto.ClinicRequestDTO;
+import com.thebongcoder.dackoi.dto.ClinicResponseDTO;
 import com.thebongcoder.dackoi.entity.User;
 import com.thebongcoder.dackoi.repository.LocationRepository;
 import com.thebongcoder.dackoi.repository.UserRepository;
@@ -27,7 +27,7 @@ public class UserService {
     private final LocationRepository locationRepository;
 
 
-    public List<ClinicRequestDTO> findNearestLocation(String email) {
+    public List<ClinicResponseDTO> findNearestLocation(String email) {
         User currentUser = userRepository.findIdByEmail(email);
         Geometry geometry = locationRepository.findCoordinateByUserId(currentUser.getId());
 
@@ -36,13 +36,13 @@ public class UserService {
 
         List<Object[]> locationsDetails = locationRepository.findAllLocations(point, currentUser.getId());
 
-        List<ClinicRequestDTO> clinicRequestDTOList = new ArrayList<>();
+        List<ClinicResponseDTO> clinicResponseDTOList = new ArrayList<>();
 
-        mappedClinicRequestDetails(locationsDetails, clinicRequestDTOList);
-        return clinicRequestDTOList;
+        mappedClinicRequestDetails(locationsDetails, clinicResponseDTOList);
+        return clinicResponseDTOList;
     }
 
-    private void mappedClinicRequestDetails(List<Object[]> locationsDetails, List<ClinicRequestDTO> clinicRequestDTOList) {
+    private void mappedClinicRequestDetails(List<Object[]> locationsDetails, List<ClinicResponseDTO> clinicRequestDTOList) {
         for (Object[] locationsDetail : locationsDetails) {
             // convert BigInteger to Long
             BigInteger bigInteger = (BigInteger) locationsDetail[0];
@@ -51,9 +51,9 @@ public class UserService {
                 User user = optionalUser.get();
                 Coordinate coordinate = user.getLocation().getPoint().getCoordinate();
                 String distance = (double) locationsDetail[1] + AppConstant.KM;
-                ClinicRequestDTO clinicRequestDTO = new ClinicRequestDTO(user.getFullName(), user.getAddress(),
+                ClinicResponseDTO clinicResponseDTO = new ClinicResponseDTO(user.getFullName(), user.getAddress(),
                         user.getPhoneNumber(), user.getEmail(), coordinate, distance);
-                clinicRequestDTOList.add(clinicRequestDTO);
+                clinicRequestDTOList.add(clinicResponseDTO);
             }
         }
     }

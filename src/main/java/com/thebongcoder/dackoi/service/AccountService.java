@@ -1,7 +1,8 @@
 package com.thebongcoder.dackoi.service;
 
 import com.thebongcoder.dackoi.Roles;
-import com.thebongcoder.dackoi.dto.SignUpRequestDTO;
+import com.thebongcoder.dackoi.dto.ClinicRequestDTO;
+import com.thebongcoder.dackoi.dto.SignUpRequestPatientDTO;
 import com.thebongcoder.dackoi.entity.*;
 import com.thebongcoder.dackoi.enums.AvailableStatus;
 import com.thebongcoder.dackoi.repository.ClinicRepository;
@@ -15,9 +16,6 @@ import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 import org.springframework.stereotype.Service;
-
-import java.security.SecureRandom;
-import java.util.stream.IntStream;
 
 @Slf4j
 @Service
@@ -55,41 +53,27 @@ public class AccountService {
     }
 
 
-    public String signUp(SignUpRequestDTO signUpRequestDTO) throws ParseException {
-        log.info("Sign up request received:: {}", signUpRequestDTO);
-        Role role = roleRepository.findByNames(signUpRequestDTO.getRoles());
+    public String signUpPatient(SignUpRequestPatientDTO signUpRequestPatientDTO) throws ParseException {
+        log.info("Sign up request received:: {}", signUpRequestPatientDTO);
+        Role role = roleRepository.findByNames(signUpRequestPatientDTO.getRoles());
         User user = new User();
         user.setRole(role);
-        user.setFullName(signUpRequestDTO.getFullName());
-        user.setEmail(signUpRequestDTO.getEmail());
-        user.setPhoneNumber(signUpRequestDTO.getPhoneNumber());
-        user.setPassword(signUpRequestDTO.getPassword());
-        user.setAddress(signUpRequestDTO.getAddress());
-        user.setUserName(signUpRequestDTO.getUserName());
-        user.setGender(signUpRequestDTO.getGender());
-        Double latitude = signUpRequestDTO.getLatitude();
-        Double longitude = signUpRequestDTO.getLongitude();
+        user.setFullName(signUpRequestPatientDTO.getFullName());
+        user.setEmail(signUpRequestPatientDTO.getEmail());
+        user.setPhoneNumber(signUpRequestPatientDTO.getPhoneNumber());
+        user.setPassword(signUpRequestPatientDTO.getPassword());
+        user.setAddress(signUpRequestPatientDTO.getAddress());
+        user.setUserName(signUpRequestPatientDTO.getUserName());
+        Double latitude = signUpRequestPatientDTO.getLatitude();
+        Double longitude = signUpRequestPatientDTO.getLongitude();
 
-        WKTReader wktReader = new WKTReader();
-        Geometry geometry = wktReader.read(AppConstant.POINT + longitude + " " + latitude + ")");
-        geometry.setSRID(4326); // Set SRID
-        Location location = new Location();
-        location.setPoint(geometry);
-        location.setUser(user);
+        Location location = getUserLocation(longitude, latitude, user);
         user.setLocation(location);
         log.info("Location:: {}", location);
         String avatarUrl = externalAPIService.generateAvatarUrl(user.getUserName());
         user.setProfilePic(avatarUrl);
         user = userRepository.save(user);
         log.info("User saved successfully:: {}", user);
-        if (role.getNames().equals(Roles.ADMIN)) {
-            Clinic clinic = new Clinic();
-            clinic.setAvailableStatus(AvailableStatus.ACTIVE);
-            clinic.setRating(0);
-            clinic.setUserId(user.getId());
-            clinicRepository.save(clinic);
-            log.info("Clinic created successfully:: {}", clinic);
-        }
         String generatedOTP = externalAPIService.generateOTP(4);
         emailService.sendOTP(user.getEmail(), user.getFullName(), generatedOTP);
         OTPDetail otpDetail = new OTPDetail(generatedOTP, user.getId());
@@ -98,4 +82,62 @@ public class AccountService {
         return "Account created successfully";
     }
 
+    private static Location getUserLocation(Double longitude, Double latitude, User user) throws ParseException {
+        WKTReader wktReader = new WKTReader();
+        Geometry geometry = wktReader.read(AppConstant.POINT + longitude + " " + latitude + ")");
+        geometry.setSRID(4326); // Set SRID
+        Location location = new Location();
+        location.setPoint(geometry);
+        location.setUser(user);
+        log.info("{getUserLocation}Location:: {}", location);
+        return location;
+    }
+
+    public String registerClinic(ClinicRequestDTO clinicRequestDTO) throws ParseException {
+        log.info("Register clinic request received:: {}", clinicRequestDTO);
+        User user = addUserDetailsFromClinicRequestDTO(clinicRequestDTO);
+        Clinic clinic = addClinicDetails(user);
+        user.setClinic(clinic);
+        user = userRepository.save(user);
+        log.info("User saved successfully:: {}", user);
+        String generatedOTP = externalAPIService.generateOTP(4);
+        /*emailService.sendOTP(user.getEmail(), user.getFullName(), generatedOTP);
+        OTPDetail otpDetail = new OTPDetail(generatedOTP, user.getId());
+        otpRepository.save(otpDetail);*/
+        log.info("{registerClinic}User created successfully:: {}", user);
+        return "Account created successfully";
+
+    }
+
+    private Clinic addClinicDetails(User user) {
+        Clinic clinic = new Clinic();
+        clinic.setUser(user);
+        clinic.setAvailableStatus(AvailableStatus.ACTIVE);
+        clinic.setRating(0);
+        log.info("{addClinicDetails}Clinic created successfully:: {}", clinic);
+//        clinicRepository.save(clinic);
+        return clinic;
+    }
+
+    private User addUserDetailsFromClinicRequestDTO(ClinicRequestDTO clinicRequestDTO) throws ParseException {
+        User user = new User();
+        user.setFullName(clinicRequestDTO.getName());
+        user.setAddress(clinicRequestDTO.getAddress());
+        user.setPhoneNumber(clinicRequestDTO.getPhoneNumber());
+        user.setEmail(clinicRequestDTO.getEmail());
+        user.setPassword(clinicRequestDTO.getPassword());
+        user.setUserName(clinicRequestDTO.getName());
+        Role role = roleRepository.findByNames(Roles.ADMIN);
+        user.setRole(role);
+        Double latitude = clinicRequestDTO.getLatitude();
+        Double longitude = clinicRequestDTO.getLongitude();
+        Location location = getUserLocation(longitude, latitude, user);
+        user.setLocation(location);
+        log.info("Location:: {}", location);
+        String avatarUrl = externalAPIService.generateAvatarUrl(user.getUserName());
+        user.setProfilePic(avatarUrl);
+
+        log.info("{addUserDetailsFromClinicRequestDTO}User created successfully:: {}", user);
+        return user;
+    }
 }

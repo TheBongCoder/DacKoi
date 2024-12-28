@@ -1,7 +1,7 @@
 package com.thebongcoder.dackoi.service;
 
-import com.thebongcoder.dackoi.utils.AppConstant;
 import com.thebongcoder.dackoi.utils.EmailConstants;
+import com.thebongcoder.dackoi.utils.MessageConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +34,7 @@ public class EmailService {
         context.setVariable(EmailConstants.FULLNAME, receiverName);
         context.setVariable(EmailConstants.OTP, otp);
         sendEmail(receiverEmail, context, EmailConstants.SUBJECT_ACCOUNT_VERIFY, EmailConstants.TEMPLATE_ACCOUNT_VERIFY);
-        return AppConstant.EMAIL_SENT_SUCCESSFULLY;
+        return MessageConstant.EMAIL_SENT_SUCCESSFULLY;
     }
 
     public void sendEmail(String receiverEmail, Context context, String subject, String template) {

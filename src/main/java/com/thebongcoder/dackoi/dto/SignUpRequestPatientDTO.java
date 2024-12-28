@@ -7,7 +7,7 @@ import lombok.Data;
 import javax.validation.constraints.*;
 
 @Data
-public class SignUpRequestDTO {
+public class SignUpRequestPatientDTO {
 
     @NotBlank(message = "Name cannot be blank")
     @Size(min = 3, max = 30, message = "min 3 letters and max 30 letters allowed")

@@ -18,14 +18,6 @@ import static javax.persistence.CascadeType.ALL;
 @Setter
 public class Doctor extends BaseEntity {
 
-    @ManyToMany
-    @JoinTable(
-            name = "doctor_clinic",
-            joinColumns = @JoinColumn(name = "doctor_id"),
-            inverseJoinColumns = @JoinColumn(name = "clinic_id")
-    )
-    private Set<Clinic> clinics;
-
     private String description;
 
     @Enumerated(EnumType.STRING)
@@ -40,5 +32,16 @@ public class Doctor extends BaseEntity {
             orphanRemoval = true
     )
     private Set<DoctorSpecializeDetail> doctorSpecializeDetails;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private User user;
+
+    @ManyToMany
+    @JoinTable(
+            name = "doctor_clinic",
+            joinColumns = @JoinColumn(name = "doctor_id"),
+            inverseJoinColumns = @JoinColumn(name = "clinic_id")
+    )
+    private Set<Clinic> clinics;
 
 }
